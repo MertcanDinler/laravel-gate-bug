@@ -14,5 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (\App\Models\User::count() === 0) {
+     $user =    \App\Models\User::factory()->create();
+    }else{
+        $user = \App\Models\User::first();
+    }
+
+    \Illuminate\Support\Facades\Auth::login($user);
+    \Illuminate\Support\Facades\Gate::authorize('some-permission');
     return view('welcome');
 });
